@@ -4,12 +4,22 @@ import "C"
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
 	"unsafe"
 
 	_ "github.com/snowflakedb/gosnowflake"
 )
 
 var db *sql.DB
+
+// ArgType represents the type of an argument
+type ArgType int
+
+const (
+	ArgTypeString ArgType = iota
+	ArgTypeInt
+	// Add more types as needed
+)
 
 const NullValue = "NULL"
 
@@ -125,13 +135,52 @@ func allocateRowMemory(results [][]string, numCols int, outValues ***C.char) {
 	}
 }
 
+func ConvertArgs(args **C.char, argTypes *C.int, argsCount C.int) ([]interface{}, *C.char) {
+	goArgs := make([]interface{}, argsCount)
+	argTypesSlice := unsafe.Slice(argTypes, argsCount)
+	argsSlice := unsafe.Slice(args, argsCount)
+
+	for i := 0; i < int(argsCount); i++ {
+		argType := ArgType(argTypesSlice[i])
+		argValue := C.GoString(argsSlice[i])
+
+		switch argType {
+		case ArgTypeInt:
+			intVal, err := strconv.Atoi(argValue)
+			if err != nil {
+				return nil, C.CString(fmt.Sprintf("Error converting argument %d to integer: %v", i, err))
+			}
+			goArgs[i] = intVal
+		case ArgTypeString:
+			goArgs[i] = argValue
+		// Add more cases for other types as needed
+		default:
+			return nil, C.CString(fmt.Sprintf("Unknown argument type %d for argument %d", int(argType), i))
+		}
+	}
+
+	return goArgs, nil
+}
+
 //export Fetch
-func Fetch(query *C.char, outColumns **C.char, outValues ***C.char, outColumnTypes **C.char, outRows *C.int, outCols *C.int) *C.char {
-	//Ugly need refacto
+func Fetch(query *C.char,
+	outColumns **C.char,
+	outValues ***C.char,
+	outColumnTypes **C.char,
+	outRows *C.int,
+	outCols *C.int,
+	args **C.char,
+	argTypes *C.int,
+	argsCount C.int) *C.char {
 	gquery := C.GoString(query)
 
+	goArgs, errMsg := ConvertArgs(args, argTypes, argsCount)
+	if errMsg != nil {
+		return errMsg
+	}
+
 	// Execute the query
-	rows, err := db.Query(gquery)
+	rows, err := db.Query(gquery, goArgs...)
 	if err != nil {
 		return cStringFromError(err)
 	}
