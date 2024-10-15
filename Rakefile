@@ -20,17 +20,17 @@ require "rubocop/rake_task"
 
 RuboCop::RakeTask.new
 
+# Task to clean the build artifacts
+task :clean do
+  Rake::Task[:clobber].invoke
+end
+
 # Task to build the extension
-task :build do
+task build: :clean do
   Dir.chdir(EXT_DIR) do
     sh 'ruby go_snowflake/extconf.rb'
     sh 'make'
   end
-end
-
-# Task to clean the build artifacts
-task :clean do
-  Rake::Task[:clobber].invoke
 end
 
 # Define the test task with build dependency
