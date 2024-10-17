@@ -23,6 +23,17 @@ const (
 
 const NullValue = "NULL"
 
+func setDb(_db *sql.DB) {
+	db = _db
+}
+
+func getDb() (*sql.DB, error) {
+	if db == nil {
+		return nil, fmt.Errorf("Database has not been initialised")
+	}
+	return db, nil
+}
+
 // cStringFromError converts Go error messages to C strings
 func cStringFromError(err error) *C.char {
 	if err == nil {
@@ -31,11 +42,9 @@ func cStringFromError(err error) *C.char {
 	return C.CString(err.Error())
 }
 
-//export InitConnection
-func InitConnection(conn_str *C.char) *C.char {
-	gconn_str := C.GoString(conn_str)
-	var err error
-	db, err = sql.Open("snowflake", gconn_str)
+//export Ping
+func Ping() *C.char {
+	db, err := getDb()
 	if err != nil {
 		return cStringFromError(err)
 	}
@@ -43,19 +52,18 @@ func InitConnection(conn_str *C.char) *C.char {
 	if err != nil {
 		return C.CString(fmt.Sprintf("Failed to ping database: %v", err))
 	}
-	return Ping()
+	return nil
 }
 
-//export Ping
-func Ping() *C.char {
-	if db == nil {
-		return C.CString(fmt.Sprintf("Database has not be initialise"))
-	}
-	err := db.Ping()
+//export InitConnection
+func InitConnection(conn_str *C.char) *C.char {
+	gconn_str := C.GoString(conn_str)
+	_db, err := sql.Open("snowflake", gconn_str)
 	if err != nil {
-		return C.CString(fmt.Sprintf("Failed to ping database: %v", err))
+		return cStringFromError(err)
 	}
-	return nil
+	setDb(_db)
+	return Ping()
 }
 
 //export CloseConnection
@@ -172,15 +180,20 @@ func Fetch(query *C.char,
 	args **C.char,
 	argTypes *C.int,
 	argsCount C.int) *C.char {
+	// Convert the query and arguments to Go types
 	gquery := C.GoString(query)
-
+	// Convert the arguments to Go types
 	goArgs, errMsg := ConvertArgs(args, argTypes, argsCount)
 	if errMsg != nil {
 		return errMsg
 	}
-
+	// Get the database connection
+	_db, err := getDb()
+	if err != nil {
+		return cStringFromError(err)
+	}
 	// Execute the query
-	rows, err := db.Query(gquery, goArgs...)
+	rows, err := _db.Query(gquery, goArgs...)
 	if err != nil {
 		return cStringFromError(err)
 	}
@@ -218,6 +231,39 @@ func Fetch(query *C.char,
 
 	// Allocate memory for row values
 	allocateRowMemory(results, numCols, outValues)
+
+	return nil
+}
+
+//export Execute
+func Execute(query *C.char, lastId *C.int, rowsNb *C.int, args **C.char, argTypes *C.int, argsCount C.int) *C.char {
+	// Convert the query and arguments to Go types
+	gquery := C.GoString(query)
+	// Convert the arguments to Go types
+	goArgs, errMsg := ConvertArgs(args, argTypes, argsCount)
+	if errMsg != nil {
+		return errMsg
+	}
+	// Get the database connection
+	_db, err := getDb()
+	if err != nil {
+		return cStringFromError(err)
+	}
+	// Execute the query
+	res, err := _db.Exec(gquery, goArgs...)
+	if err != nil {
+		return cStringFromError(err)
+	}
+	// Get the number of rows affected
+	rows, err := res.RowsAffected()
+	if err != nil {
+		return cStringFromError(err)
+	}
+	// Get the last inserted ID
+	lastInsertedId, err := res.LastInsertId()
+	// Set the output values
+	*lastId = C.int(lastInsertedId)
+	*rowsNb = C.int(rows)
 
 	return nil
 }

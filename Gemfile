@@ -12,3 +12,5 @@ gem "minitest", "~> 5.16"
 gem "ffi", "~> 1.15"
 
 gem "rubocop", "~> 1.21"
+
+gem "dotenv"

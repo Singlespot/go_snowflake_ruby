@@ -1,5 +1,3 @@
-require 'ffi'
-
 module GoSnowflake
   extend FFI::Library
 
@@ -10,7 +8,7 @@ module GoSnowflake
 
   # Bind the Go functions
   attach_function :InitConnection, [:string], :string
-  attach_function :Ping, [], :void
+  attach_function :Ping, [], :string
   attach_function :CloseConnection, [], :void
   attach_function :Fetch, [
     :string, # query
@@ -21,11 +19,49 @@ module GoSnowflake
     :pointer, # out_cols
     :pointer, # args
     :pointer, # arg_types
-    :int # args size
-  ], :pointer
+    :int      # args size
+  ], :string
+  attach_function :Execute, [
+    :pointer, # query
+    :pointer, # lastId
+    :pointer, # rowsNb
+    :pointer, # args
+    :pointer, # argTypes
+    :int      # args size
+  ], :string
   attach_function :free, [:pointer], :void
 
   class Error < StandardError; end
+
+  class Executor
+    def initialize(query, *args)
+      @query = query
+      @args = args
+    end
+
+    def execute
+      args_pointers, args_array, arg_types_array = ArgumentBuilder.build(@args)
+
+      last_id = FFI::MemoryPointer.new(:int)
+      rows_nb = FFI::MemoryPointer.new(:int)
+
+      begin
+        error = GoSnowflake.Execute(@query, last_id, rows_nb, args_array, arg_types_array, @args.length)
+        if !error.nil?
+          err = "Execute Error: #{error}"
+          raise err
+        end
+        @last_id = last_id.read_int
+        @rows_nb = rows_nb.read_int
+      ensure
+        args_pointers.each(&:free)
+        args_array.free
+        arg_types_array.free
+        last_id.free
+        rows_nb.free
+      end
+    end
+  end
 
   class Fetcher
     def initialize(query, *args)
@@ -41,57 +77,43 @@ module GoSnowflake
       out_rows = FFI::MemoryPointer.new(:int)
       out_cols = FFI::MemoryPointer.new(:int)
 
-      args_pointers = @args.map do |arg|
-        if arg.is_a?(Integer)
-          FFI::MemoryPointer.from_string(arg.to_s)
-        else
-          FFI::MemoryPointer.from_string(arg)
+      args_pointers, args_array, arg_types_array = ArgumentBuilder.build(@args)
+      begin
+        # Execute query
+        error = GoSnowflake::Fetch(@query, out_columns, out_values, out_column_types, out_rows, out_cols, args_array, arg_types_array, @args.length)
+        if !error.nil?
+          err = "Query Error: #{error}"
+          raise err
         end
-      end
-      args_array = FFI::MemoryPointer.new(:pointer, @args.length)
-      args_pointers.each_with_index { |ptr, i| args_array[i].put_pointer(0, ptr) }
 
-      arg_types_array = FFI::MemoryPointer.new(:int, @args.length)
-      @args.each_with_index do |arg, i|
-        if arg.is_a?(Integer)
-          arg_types_array[i].put_int32(i * 4, GoSnowflake.enum_type(:arg_type)[:int])
-        else
-          arg_types_array[i].put_int32(i * 4, GoSnowflake.enum_type(:arg_type)[:string])
+        # Read results
+        @num_rows = out_rows.read_int
+        @num_cols = out_cols.read_int
+
+        # Read column names
+        columns_ptr = out_columns.read_pointer
+        @columns = columns_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
+
+        # Read column types
+        column_types_ptr = out_column_types.read_pointer
+        @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
+
+        # Read row data
+        rows_ptr = out_values.read_pointer
+        @rows = []
+        @num_rows.times do |i|
+          row_ptr = rows_ptr.get_pointer(i * FFI::Pointer.size)
+          row = row_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
+          @rows << row
         end
+      ensure
+        args_pointers.each(&:free)
+        args_array.free
+        arg_types_array.free
+        out_columns.free
+        out_column_types.free
+        out_values.free
       end
-
-      # Execute query
-      error = GoSnowflake::Fetch(@query, out_columns, out_values, out_column_types, out_rows, out_cols, args_array, arg_types_array, @args.length)
-      if !error.null?
-        err = "Query Error: #{error.read_string}"
-        GoSnowflake.free(error)
-        raise err
-      end
-
-      # Read results
-      @num_rows = out_rows.read_int
-      @num_cols = out_cols.read_int
-
-      # Read column names
-      columns_ptr = out_columns.read_pointer
-      @columns = columns_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
-
-      # Read column types
-      column_types_ptr = out_column_types.read_pointer
-      @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
-
-      # Read row data
-      rows_ptr = out_values.read_pointer
-      @rows = []
-      @num_rows.times do |i|
-        row_ptr = rows_ptr.get_pointer(i * FFI::Pointer.size)
-        row = row_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
-        @rows << row
-      end
-      # Free memory
-      GoSnowflake.free(out_columns.read_pointer)
-      GoSnowflake.free(out_column_types.read_pointer)
-      GoSnowflake.free(out_values.read_pointer)
     end
   end
 end
