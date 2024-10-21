@@ -7,10 +7,11 @@ import (
 	"strconv"
 	"unsafe"
 
+	//Why do I have to import twice?
+	database "go_snowflake/go_snowflake/database"
+
 	_ "github.com/snowflakedb/gosnowflake"
 )
-
-var db *sql.DB
 
 // ArgType represents the type of an argument
 type ArgType int
@@ -23,17 +24,6 @@ const (
 
 const NullValue = "NULL"
 
-func setDb(_db *sql.DB) {
-	db = _db
-}
-
-func getDb() (*sql.DB, error) {
-	if db == nil {
-		return nil, fmt.Errorf("Database has not been initialised")
-	}
-	return db, nil
-}
-
 // cStringFromError converts Go error messages to C strings
 func cStringFromError(err error) *C.char {
 	if err == nil {
@@ -44,13 +34,9 @@ func cStringFromError(err error) *C.char {
 
 //export Ping
 func Ping() *C.char {
-	db, err := getDb()
+	err := database.Ping()
 	if err != nil {
 		return cStringFromError(err)
-	}
-	err = db.Ping()
-	if err != nil {
-		return C.CString(fmt.Sprintf("Failed to ping database: %v", err))
 	}
 	return nil
 }
@@ -58,19 +44,20 @@ func Ping() *C.char {
 //export InitConnection
 func InitConnection(conn_str *C.char) *C.char {
 	gconn_str := C.GoString(conn_str)
-	_db, err := sql.Open("snowflake", gconn_str)
+	err := database.Init(gconn_str)
 	if err != nil {
 		return cStringFromError(err)
 	}
-	setDb(_db)
-	return Ping()
+	return nil
 }
 
 //export CloseConnection
-func CloseConnection() {
-	if db != nil {
-		db.Close()
+func CloseConnection() *C.char {
+	err := database.Close()
+	if err != nil {
+		return cStringFromError(err)
 	}
+	return nil
 }
 
 func allocateColumnMemory(numCols int, outColumns **C.char, outColumnTypes **C.char) ([]*C.char, []*C.char) {
@@ -188,12 +175,12 @@ func Fetch(query *C.char,
 		return errMsg
 	}
 	// Get the database connection
-	_db, err := getDb()
+	db, err := database.GetDb()
 	if err != nil {
 		return cStringFromError(err)
 	}
 	// Execute the query
-	rows, err := _db.Query(gquery, goArgs...)
+	rows, err := db.Query(gquery, goArgs...)
 	if err != nil {
 		return cStringFromError(err)
 	}
@@ -245,12 +232,12 @@ func Execute(query *C.char, lastId *C.int, rowsNb *C.int, args **C.char, argType
 		return errMsg
 	}
 	// Get the database connection
-	_db, err := getDb()
+	db, err := database.GetDb()
 	if err != nil {
 		return cStringFromError(err)
 	}
 	// Execute the query
-	res, err := _db.Exec(gquery, goArgs...)
+	res, err := db.Exec(gquery, goArgs...)
 	if err != nil {
 		return cStringFromError(err)
 	}
