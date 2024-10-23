@@ -7,7 +7,7 @@ end
 
 # Build the Go shared library
 mod_name = "go_snowflake"
-go_input = 'go_snowflake/go_snowflake.go'
+go_input = 'go_snowflake/go_snowflake.go go_snowflake/arguments_binding.go'
 go_output = 'go_snowflake/go_snowflake.so'
 
 unless system("go mod init #{mod_name}")
