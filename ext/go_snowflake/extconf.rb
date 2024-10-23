@@ -6,10 +6,11 @@ unless find_executable('go')
 end
 
 # Build the Go shared library
-go_input = 'go_snowflake/go_snowflake.go'
+mod_name = "go_snowflake"
+go_input = 'go_snowflake/go_snowflake.go go_snowflake/arguments_binding.go'
 go_output = 'go_snowflake/go_snowflake.so'
 
-unless system("go mod init #{go_input}")
+unless system("go mod init #{mod_name}")
   abort 'Failed to init Go mod.'
 end
 
@@ -26,7 +27,7 @@ unless system(go_build_cmd)
 end
 
 # Create the Makefile to link the shared library
-create_makefile("go_snowflake/go_snowflake/#{go_output}")
+create_makefile("#{go_output}")
 
 File.open('Makefile', 'a') do |f|
   f.puts <<-EOF

@@ -13,14 +13,18 @@ module GoSnowflake
   attach_function :Fetch, [
     :string, # query
     :pointer, # out_columns
-    :pointer, # out_values
     :pointer, # out_column_types
-    :pointer, # out_rows
     :pointer, # out_cols
     :pointer, # args
     :pointer, # arg_types
     :int      # args size
   ], :string
+  attach_function :FetchNextRow, [
+    :pointer, # out_columns
+    :pointer, # out_values
+    :int      # row number
+  ], :string
+  attach_function :CloseCursor, [], :void
   attach_function :Execute, [
     :pointer, # query
     :pointer, # lastId
@@ -64,47 +68,44 @@ module GoSnowflake
   end
 
   class Fetcher
+    attr_reader :columns, :column_types
+
     def initialize(query, *args)
       @query = query
       @args = args
     end
 
-    def run
-      # Allocate memory for query results
+    def select
       out_columns = FFI::MemoryPointer.new(:pointer)
-      out_values = FFI::MemoryPointer.new(:pointer)
       out_column_types = FFI::MemoryPointer.new(:pointer)
-      out_rows = FFI::MemoryPointer.new(:int)
       out_cols = FFI::MemoryPointer.new(:int)
-
+      out_values = FFI::MemoryPointer.new(:pointer)
+      is_over_ptr = FFI::MemoryPointer.new(:uchar)
+      is_over_ptr.put_uchar(0, 1)
       args_pointers, args_array, arg_types_array = ArgumentBuilder.build(@args)
       begin
-        # Execute query
-        error = GoSnowflake::Fetch(@query, out_columns, out_values, out_column_types, out_rows, out_cols, args_array, arg_types_array, @args.length)
+        error = GoSnowflake::Fetch(@query, out_columns, out_column_types, out_cols, args_array, arg_types_array, @args.length)
         if !error.nil?
           err = "Query Error: #{error}"
           raise err
         end
-
-        # Read results
-        @num_rows = out_rows.read_int
         @num_cols = out_cols.read_int
 
-        # Read column names
         columns_ptr = out_columns.read_pointer
         @columns = columns_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
 
-        # Read column types
         column_types_ptr = out_column_types.read_pointer
         @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
-
-        # Read row data
-        rows_ptr = out_values.read_pointer
-        @rows = []
-        @num_rows.times do |i|
-          row_ptr = rows_ptr.get_pointer(i * FFI::Pointer.size)
+        loop do
+          error = GoSnowflake::FetchNextRow(is_over_ptr, out_values, @num_cols)
+          if !error.nil?
+            err = "Query Error: #{error}"
+            raise err
+          end
+          break if is_over_ptr.read_uchar == 1
+          row_ptr = out_values.read_pointer
           row = row_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
-          @rows << row
+          yield row
         end
       ensure
         args_pointers.each(&:free)
@@ -113,6 +114,7 @@ module GoSnowflake
         out_columns.free
         out_column_types.free
         out_values.free
+        is_over_ptr.free
       end
     end
   end

@@ -29,8 +29,9 @@ module GoSnowflakeRuby
 
     def select(query, *args)
       fetcher = GoSnowflake::Fetcher.new(query, *args)
-      fetcher.run
-      fetcher
+      fetcher.select do |row|
+        yield row
+      end
     end
 
     def execute(query, *args)
