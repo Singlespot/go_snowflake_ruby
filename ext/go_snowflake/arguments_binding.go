@@ -84,19 +84,3 @@ func convertToCharArray(values []string, outValues **C.char) {
 	// Set the output parameter
 	*outValues = (*C.char)(cArray)
 }
-
-// func AllocateRowMemory(results [][]string, numCols int, outValues ***C.char) {
-// 	numRows := len(results)
-// 	*outValues = (**C.char)(C.malloc(C.size_t(numRows) * C.size_t(unsafe.Sizeof(uintptr(0)))))
-
-// 	for i := 0; i < numRows; i++ {
-// 		row := results[i]
-// 		rowArray := (*C.char)(C.malloc(C.size_t(numCols) * C.size_t(unsafe.Sizeof(uintptr(0)))))
-// 		for j := 0; j < numCols; j++ {
-// 			ptr := (**C.char)(unsafe.Pointer(uintptr(unsafe.Pointer(rowArray)) + uintptr(j)*unsafe.Sizeof(uintptr(0))))
-// 			*ptr = C.CString(row[j])
-// 		}
-// 		ptr := (**C.char)(unsafe.Pointer(uintptr(unsafe.Pointer(*outValues)) + uintptr(i)*unsafe.Sizeof(uintptr(0))))
-// 		*ptr = rowArray
-// 	}
-// }
