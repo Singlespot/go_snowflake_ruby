@@ -1,10 +1,15 @@
 package main
 
+//#include <stdlib.h>
+//#include <string.h>
 import "C"
 
 import (
+	"runtime"
+	"unsafe"
 
 	//Why do I have to import twice?
+
 	database "go_snowflake/go_snowflake/database"
 
 	_ "github.com/snowflakedb/gosnowflake"
@@ -22,17 +27,28 @@ func cStringFromError(err error) *C.char {
 func Ping() *C.char {
 	err := database.Ping()
 	if err != nil {
-		return cStringFromError(err)
+		result := cStringFromError(err)
+		runtime.SetFinalizer(result, func(str *C.char) {
+			C.free(unsafe.Pointer(str))
+		})
+		return result
 	}
 	return nil
 }
 
 //export InitConnection
-func InitConnection(conn_str *C.char) *C.char {
-	gconn_str := C.GoString(conn_str)
-	err := database.Init(gconn_str)
+func InitConnection(connStr *C.char) *C.char {
+	if connStr == nil {
+		return C.CString("connection string cannot be nil")
+	}
+	gconnStr := C.GoString(connStr)
+	err := database.Init(gconnStr)
 	if err != nil {
-		return cStringFromError(err)
+		result := cStringFromError(err)
+		runtime.SetFinalizer(result, func(str *C.char) {
+			C.free(unsafe.Pointer(str))
+		})
+		return result
 	}
 	return nil
 }
@@ -119,6 +135,37 @@ func Execute(query *C.char, lastId *C.int, rowsNb *C.int, args **C.char, argType
 	}
 	*lastId = C.int(execRes.LastInsertId)
 	*rowsNb = C.int(execRes.RowsAffected)
+	return nil
+}
+
+//export AsyncExecute
+func AsyncExecute(query *C.char, queryId *C.char, args **C.char, argTypes *C.int, argsCount C.int) *C.char {
+	if query == nil {
+		return C.CString("query cannot be nil")
+	}
+
+	gquery := C.GoString(query)
+	goArgs, errMsg := ConvertArgs(args, argTypes, argsCount)
+	if errMsg != nil {
+		return errMsg
+	}
+
+	execRes := database.ExecuteAsyncQuery(gquery, goArgs)
+	if execRes.Error != nil {
+		result := cStringFromError(execRes.Error)
+		runtime.SetFinalizer(result, func(str *C.char) {
+			C.free(unsafe.Pointer(str))
+		})
+		return result
+	}
+
+	// Safer query ID copying
+	queryIDLen := len(execRes.QueryID)
+	if queryIDLen > 0 {
+		dest := (*[1 << 30]byte)(unsafe.Pointer(queryId))[:queryIDLen:queryIDLen]
+		copy(dest, execRes.QueryID)
+	}
+
 	return nil
 }
 

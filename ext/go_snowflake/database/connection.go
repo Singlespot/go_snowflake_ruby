@@ -3,7 +3,6 @@ package database
 import "C"
 import (
 	"database/sql"
-	"errors"
 	"fmt"
 
 	_ "github.com/snowflakedb/gosnowflake"
@@ -16,18 +15,29 @@ func Ping() error {
 	}
 	err = db.Ping()
 	if err != nil {
-		return errors.New(fmt.Sprintf("Failed to ping database: %v", err))
+		return fmt.Errorf("failed to ping database: %w", err)
 	}
 	return nil
 }
 
-func Init(conn_str string) error {
-	_db, err := sql.Open("snowflake", conn_str)
-	if err != nil {
-		return errors.New(fmt.Sprintf("Failed to open database: %v", err))
-	}
-	SetDb(_db)
-	return Ping()
+func Init(connStr string) error {
+	var initErr error
+	initOnce.Do(func() {
+		database, err := sql.Open("snowflake", connStr)
+		if err != nil {
+			initErr = fmt.Errorf("failed to open database: %w", err)
+			return
+		}
+
+		if err := database.Ping(); err != nil {
+			database.Close()
+			initErr = fmt.Errorf("failed to ping database: %w", err)
+			return
+		}
+
+		setDb(database)
+	})
+	return initErr
 }
 
 func Close() error {
@@ -37,7 +47,7 @@ func Close() error {
 	}
 	err = db.Close()
 	if err != nil {
-		return errors.New(fmt.Sprintf("Failed to close database: %v", err))
+		return fmt.Errorf("failed to close database: %w", err)
 	}
 	return nil
 }

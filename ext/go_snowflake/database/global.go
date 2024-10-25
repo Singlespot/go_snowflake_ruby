@@ -4,19 +4,29 @@ import "C"
 import (
 	"database/sql"
 	"fmt"
+	"sync"
 
 	_ "github.com/snowflakedb/gosnowflake"
 )
 
-var db *sql.DB
+var (
+	db       *sql.DB
+	dbMu     sync.RWMutex
+	initOnce sync.Once
+)
 
-func SetDb(_db *sql.DB) {
-	db = _db
+func setDb(database *sql.DB) {
+	dbMu.Lock()
+	defer dbMu.Unlock()
+	db = database
 }
 
 func GetDb() (*sql.DB, error) {
+	dbMu.RLock()
+	defer dbMu.RUnlock()
+
 	if db == nil {
-		return nil, fmt.Errorf("Database has not been initialised")
+		return nil, fmt.Errorf("database connection not initialized")
 	}
 	return db, nil
 }

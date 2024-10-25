@@ -1,23 +1,19 @@
 module ArgumentBuilder
-  def self.build(args)
-    args_pointers = args.map do |arg|
-      if arg.is_a?(Integer)
-        FFI::MemoryPointer.from_string(arg.to_s)
-      else
-        FFI::MemoryPointer.from_string(arg)
-      end
-    end
-    args_array = FFI::MemoryPointer.new(:pointer, args.length)
-    args_pointers.each_with_index { |ptr, i| args_array[i].put_pointer(0, ptr) }
+  # Define the ArgType enum with frozen hash
+  ARG_TYPES = {
+    string: 0,
+    int: 1
+  }.freeze
 
+  def self.build(args)
+    arg_pointers = args.map { |arg| FFI::MemoryPointer.from_string(arg.to_s) }
+    args_array = FFI::MemoryPointer.new(:pointer, args.length)
+    args_array.write_array_of_pointer(arg_pointers)
+
+    arg_types = args.map { |arg| arg.is_a?(Integer) ? ARG_TYPES[:int] : ARG_TYPES[:string] }
     arg_types_array = FFI::MemoryPointer.new(:int, args.length)
-    args.each_with_index do |arg, i|
-      if arg.is_a?(Integer)
-        arg_types_array.put_int32(i * 4, GoSnowflake.enum_type(:arg_type)[:int])
-      else
-        arg_types_array.put_int32(i * 4, GoSnowflake.enum_type(:arg_type)[:string])
-      end
-    end
-    [args_pointers, args_array, arg_types_array]
+    arg_types_array.write_array_of_int(arg_types)
+
+    [arg_pointers, args_array, arg_types_array]
   end
 end
