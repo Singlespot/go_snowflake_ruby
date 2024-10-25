@@ -32,7 +32,7 @@ func convertArgsToNamedValues(args []interface{}) []driver.NamedValue {
 // ExecuteAsyncQuery executes a query asynchronously and returns the query ID
 func ExecuteAsyncQuery(query string, args []interface{}) ExecuteAsyncResult {
 
-	ctx := context.Background()
+	ctx := sf.WithAsyncMode(context.Background())
 
 	db, err := GetDb()
 	if err != nil {
