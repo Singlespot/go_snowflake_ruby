@@ -51,7 +51,7 @@ module GoSnowflake
       @columns = columns_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
 
       column_types_ptr = @out_column_types.read_pointer
-      @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
+      @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string).map { |type| type_json_parse(type) }
     end
 
     def fetch_rows
@@ -80,6 +80,13 @@ module GoSnowflake
         @is_over_ptr
       ]
       super(resources)
+    end
+
+    private
+    def type_json_parse(type)
+      JSON.parse(type)
+      rescue JSON::ParserError
+        type
     end
   end
 end

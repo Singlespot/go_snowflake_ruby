@@ -4,6 +4,7 @@ import "C"
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"unsafe"
@@ -17,6 +18,14 @@ const (
 	ArgTypeInt
 	// Add more types as needed
 )
+
+type ColumnTypeInfo struct {
+	TypeName  string
+	Length    int64
+	Precision int64
+	Scale     int64
+	Nullable  bool
+}
 
 func ConvertArgs(args **C.char, argTypes *C.int, argsCount C.int) ([]interface{}, *C.char) {
 	goArgs := make([]interface{}, argsCount)
@@ -55,10 +64,43 @@ func AllocateColumnMemory(numCols int, outColumns **C.char, outColumnTypes **C.c
 	return colNames, colTypes
 }
 
+func columnTypeToJSON(ct *sql.ColumnType) string {
+	info := ColumnTypeInfo{
+		TypeName: ct.DatabaseTypeName(),
+		Nullable: true, // default value
+	}
+
+	// Get length for variable length types
+	length, ok := ct.Length()
+	if ok {
+		info.Length = length
+	}
+
+	// Get precision and scale for decimal types
+	precision, scale, ok := ct.DecimalSize()
+	if ok {
+		info.Precision = precision
+		info.Scale = scale
+	}
+
+	// Get nullable property
+	nullable, ok := ct.Nullable()
+	if ok {
+		info.Nullable = nullable
+	}
+
+	jsonBytes, err := json.Marshal(info)
+	if err != nil {
+		return "{}"
+	}
+	return string(jsonBytes)
+}
+
 func SetColumnNamesAndTypes(columns []string, columnTypes []*sql.ColumnType, colNames []*C.char, colTypes []*C.char, outColumns **C.char, outColumnTypes **C.char) {
 	for i, col := range columns {
 		colNames[i] = C.CString(col)
-		colTypes[i] = C.CString(columnTypes[i].DatabaseTypeName())
+		// colTypes[i] = C.CString(columnTypes[i].DatabaseTypeName())
+		colTypes[i] = C.CString(columnTypeToJSON(columnTypes[i]))
 
 		// Set column names
 		ptrName := (**C.char)(unsafe.Pointer(uintptr(unsafe.Pointer(*outColumns)) + uintptr(i)*unsafe.Sizeof(uintptr(0))))

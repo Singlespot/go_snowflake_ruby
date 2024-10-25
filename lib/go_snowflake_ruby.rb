@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 require 'ffi'
+require 'json'
 require_relative "go_snowflake_ruby/version"
 require_relative "go_snowflake/go_snowflake"
+require_relative "go_snowflake/executor/base_executor"
+require_relative "go_snowflake/executor/executor"
+require_relative "go_snowflake/executor/fetcher"
+require_relative "go_snowflake/executor/async_executor"
 require_relative "go_snowflake/argument_builder"
+
 
 module GoSnowflakeRuby
   class Error < StandardError; end
