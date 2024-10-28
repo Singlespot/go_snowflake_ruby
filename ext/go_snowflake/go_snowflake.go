@@ -27,11 +27,14 @@ func cStringFromError(err error) *C.char {
 func Ping() *C.char {
 	err := database.Ping()
 	if err != nil {
-		result := cStringFromError(err)
-		runtime.SetFinalizer(result, func(str *C.char) {
-			C.free(unsafe.Pointer(str))
+		// Convert Go string to C string
+		errStr := C.CString(err.Error())
+		// Set finalizer on the Go pointer, not the C pointer
+		ptr := unsafe.Pointer(errStr)
+		runtime.SetFinalizer(&ptr, func(p *unsafe.Pointer) {
+			C.free(*p)
 		})
-		return result
+		return errStr
 	}
 	return nil
 }
@@ -44,11 +47,14 @@ func InitConnection(connStr *C.char) *C.char {
 	gconnStr := C.GoString(connStr)
 	err := database.Init(gconnStr)
 	if err != nil {
-		result := cStringFromError(err)
-		runtime.SetFinalizer(result, func(str *C.char) {
-			C.free(unsafe.Pointer(str))
+		// Convert Go string to C string
+		errStr := C.CString(err.Error())
+		// Set finalizer on the Go pointer, not the C pointer
+		ptr := unsafe.Pointer(errStr)
+		runtime.SetFinalizer(&ptr, func(p *unsafe.Pointer) {
+			C.free(*p)
 		})
-		return result
+		return errStr
 	}
 	return nil
 }
@@ -138,6 +144,11 @@ func Execute(query *C.char, lastId *C.int, rowsNb *C.int, args **C.char, argType
 	return nil
 }
 
+//export CancelExecution
+func CancelExecution() {
+	database.CancelExecution()
+}
+
 //export AsyncExecute
 func AsyncExecute(query *C.char, queryId *C.char, args **C.char, argTypes *C.int, argsCount C.int) *C.char {
 	if query == nil {
@@ -152,11 +163,14 @@ func AsyncExecute(query *C.char, queryId *C.char, args **C.char, argTypes *C.int
 
 	execRes := database.ExecuteAsyncQuery(gquery, goArgs)
 	if execRes.Error != nil {
-		result := cStringFromError(execRes.Error)
-		runtime.SetFinalizer(result, func(str *C.char) {
-			C.free(unsafe.Pointer(str))
+		// Convert Go string to C string
+		errStr := C.CString(execRes.Error.Error())
+		// Set finalizer on the Go pointer, not the C pointer
+		ptr := unsafe.Pointer(errStr)
+		runtime.SetFinalizer(&ptr, func(p *unsafe.Pointer) {
+			C.free(*p)
 		})
-		return result
+		return errStr
 	}
 
 	// Safer query ID copying

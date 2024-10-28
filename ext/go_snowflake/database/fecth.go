@@ -1,10 +1,14 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 	"time"
 )
 
@@ -24,10 +28,23 @@ var (
 	cursorMutex   sync.RWMutex
 )
 
+var (
+	QueryCancel context.CancelFunc
+	QueryMu     sync.RWMutex
+)
+
 const (
 	NullValue      = "NULL"
 	defaultTimeout = 30 * time.Second
 )
+
+func CancelQuery() {
+	QueryMu.Lock()
+	defer QueryMu.Unlock()
+	if QueryCancel != nil {
+		QueryCancel()
+	}
+}
 
 // newCursor creates a new cursor instance
 func newCursor(rows *sql.Rows) *Cursor {
@@ -56,13 +73,43 @@ func Fetch(query string, args []interface{}) error {
 		return ErrNilDB
 	}
 
-	rows, err := db.Query(query, args...)
-	if err != nil {
-		return fmt.Errorf("failed to execute query: %w", err)
-	}
+	// Create context with cancel
+	ctx, cancel := context.WithCancel(context.Background())
 
-	currentCursor = newCursor(rows)
-	return nil
+	QueryMu.Lock()
+	QueryCancel = cancel
+	QueryMu.Unlock()
+
+	// Set up signal handling
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	defer signal.Stop(sigChan)
+
+	// Channel for query results
+	rowsChan := make(chan *sql.Rows, 1)
+	errChan := make(chan error, 1)
+
+	// Execute query in goroutine
+	go func() {
+		rows, err := db.QueryContext(ctx, query, args...)
+		if err != nil {
+			errChan <- fmt.Errorf("failed to execute query: %w", err)
+			return
+		}
+		rowsChan <- rows
+	}()
+
+	// Wait for either query completion or interrupt
+	select {
+	case <-sigChan:
+		cancel() // Cancel the context
+		return fmt.Errorf("query cancelled by signal")
+	case err := <-errChan:
+		return err
+	case rows := <-rowsChan:
+		currentCursor = newCursor(rows)
+		return nil
+	}
 }
 
 // GetColumns returns the column names of the current result set

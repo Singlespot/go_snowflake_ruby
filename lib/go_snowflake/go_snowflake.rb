@@ -42,6 +42,7 @@ module GoSnowflake
     :pointer, # argTypes
     :int      # args size
   ], :string
+  attach_function :CancelExecution, [], :void
   attach_function :AsyncExecute, [
     :pointer, # query
     :pointer, # queryId

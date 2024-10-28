@@ -3,6 +3,7 @@ require 'ffi'
 require 'json'
 require_relative "go_snowflake_ruby/version"
 require_relative "go_snowflake/go_snowflake"
+require_relative "go_snowflake/signal_handler"
 require_relative "go_snowflake/executor/base_executor"
 require_relative "go_snowflake/executor/executor"
 require_relative "go_snowflake/executor/fetcher"
