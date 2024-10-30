@@ -34,15 +34,25 @@ module GoSnowflakeRuby
       !@error
     end
 
-    def select(query, *args)
+    def select(query, *args, &block)
       fetcher = GoSnowflake::Fetcher.new(query, *args)
       fetcher.select do |row|
-        yield row
+        if block.parameters.length == 1
+          block.call(row)
+        else
+          block.call(row, fetcher)
+        end
       end
     end
 
     def execute(query, *args)
       executor = GoSnowflake::Executor.new(query, *args)
+      executor.execute
+      executor
+    end
+
+    def async_execute(query, *args)
+      executor = GoSnowflake::AsyncExecutor.new(query, *args)
       executor.execute
       executor
     end

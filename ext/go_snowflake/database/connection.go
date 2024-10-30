@@ -21,33 +21,43 @@ func Ping() error {
 }
 
 func Init(connStr string) error {
-	var initErr error
-	initOnce.Do(func() {
-		database, err := sql.Open("snowflake", connStr)
-		if err != nil {
-			initErr = fmt.Errorf("failed to open database: %w", err)
-			return
-		}
+	dbMu.Lock()
+	defer dbMu.Unlock()
 
-		if err := database.Ping(); err != nil {
-			database.Close()
-			initErr = fmt.Errorf("failed to ping database: %w", err)
-			return
+	// Close existing connection if it exists
+	if db != nil {
+		if err := db.Close(); err != nil {
+			return fmt.Errorf("failed to close existing connection: %w", err)
 		}
+		db = nil
+	}
 
-		setDb(database)
-	})
-	return initErr
+	// Create new connection
+	database, err := sql.Open("snowflake", connStr)
+	if err != nil {
+		return fmt.Errorf("failed to open database: %w", err)
+	}
+
+	// Test the connection
+	if err := database.Ping(); err != nil {
+		database.Close()
+		return fmt.Errorf("failed to ping database: %w", err)
+	}
+
+	db = database // directly set db since we already have the lock
+	return nil
 }
 
 func Close() error {
-	db, err := GetDb()
-	if err != nil {
-		return err
-	}
-	err = db.Close()
-	if err != nil {
-		return fmt.Errorf("failed to close database: %w", err)
+	dbMu.Lock()
+	defer dbMu.Unlock()
+
+	if db != nil {
+		err := db.Close()
+		if err != nil {
+			return fmt.Errorf("failed to close database: %w", err)
+		}
+		db = nil // Clear the connection after closing
 	}
 	return nil
 }

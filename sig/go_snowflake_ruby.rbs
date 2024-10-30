@@ -1,4 +1,19 @@
 module GoSnowflakeRuby
-  VERSION: String
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+  VERSION: String
+
+  class Database
+    type error_t = String | nil
+    type query_result = Hash[String, String | Integer | Float | bool | nil]
+    attr_reader error: error_t
+    def self.connect: (String connection_string) -> Database
+    def disconnect: () -> void
+    def connected?: () -> bool
+    def select: (String query, *untyped args) { (query_result) -> void } -> void
+    def execute: (String query, *untyped args) -> GoSnowflake::Executor
+    def async_execute: (String query, *untyped args) -> GoSnowflake::AsyncExecutor
+
+    private
+    def set_error: (error_t error) -> error_t
+  end
 end
