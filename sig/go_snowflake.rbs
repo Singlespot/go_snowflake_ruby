@@ -1,0 +1,14 @@
+module GoSnowflake
+  class Executor
+    attr_reader last_insert_id: Integer
+    attr_reader rows_affected: Integer
+    attr_reader error: String?
+
+    def initialize: (String query, *untyped args) -> void
+    def execute: () -> void
+  end
+
+  class AsyncExecutor < Executor
+    attr_reader query_id: String?
+  end
+end
