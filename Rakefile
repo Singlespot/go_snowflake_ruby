@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "bundler/gem_tasks"
-require "minitest/test_task"
+require 'rake/testtask'
 
 # Define directories and files
 EXT_DIR = File.expand_path('ext')
@@ -34,7 +34,8 @@ task build: :clean do
 end
 
 # Define the test task with build dependency
-Minitest::TestTask.create do |t|
+Rake::TestTask.new do |t|
+  t.pattern = "test/**/test_*.rb"
   t.libs << 'lib'
   t.verbose = true
   t.warning = true

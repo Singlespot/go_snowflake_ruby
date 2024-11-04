@@ -10,7 +10,6 @@ require_relative "go_snowflake/executor/fetcher"
 require_relative "go_snowflake/executor/async_executor"
 require_relative "go_snowflake/argument_builder"
 
-
 module GoSnowflakeRuby
   class Error < StandardError; end
 
