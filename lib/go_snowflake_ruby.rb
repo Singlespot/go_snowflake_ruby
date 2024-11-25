@@ -86,8 +86,6 @@ module GoSnowflakeRuby
       executor
     end
 
-    private
-
     # Sets the last error message
     # @param error [String] Error message
     # @return [void]
