@@ -32,11 +32,13 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.extensions    = ["ext/extconf.rb"]
+  spec.extensions    = ["ext/go_snowflake/extconf.rb"]
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
   spec.add_development_dependency 'yard'
+  spec.add_development_dependency 'rake-compiler'
+  spec.add_development_dependency 'rake'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
