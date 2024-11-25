@@ -10,6 +10,9 @@ mod_name = "go_snowflake"
 go_input = 'go_snowflake/go_snowflake.go go_snowflake/arguments_binding.go'
 go_output = 'go_snowflake/go_snowflake.so'
 
+FileUtils.rm_f('go.mod')
+FileUtils.rm_f('go.sum')
+
 unless system("go mod init #{mod_name}")
   abort 'Failed to init Go mod.'
 end
