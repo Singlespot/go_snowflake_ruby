@@ -1,14 +1,17 @@
 require 'mkmf'
+require 'fileutils'
 
 # Ensure we have Go installed
 unless find_executable('go')
   abort 'Go is not installed. Please install Go and make sure it is in your PATH.'
 end
 
+Dir.chdir(__dir__)
+
 # Build the Go shared library
 mod_name = "go_snowflake"
-go_input = 'go_snowflake/go_snowflake.go go_snowflake/arguments_binding.go'
-go_output = 'go_snowflake/go_snowflake.so'
+go_input = 'go_snowflake.go arguments_binding.go'
+go_output = 'go_snowflake.so'
 
 FileUtils.rm_f('go.mod')
 FileUtils.rm_f('go.sum')

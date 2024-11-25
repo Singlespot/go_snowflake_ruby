@@ -10,7 +10,7 @@ import (
 
 	//Why do I have to import twice?
 
-	database "go_snowflake/go_snowflake/database"
+	database "go_snowflake/database"
 
 	_ "github.com/snowflakedb/gosnowflake"
 )

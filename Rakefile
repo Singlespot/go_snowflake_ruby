@@ -27,8 +27,8 @@ end
 
 # Task to build the extension
 task build: :clean do
-  Dir.chdir(EXT_DIR) do
-    sh 'ruby go_snowflake/extconf.rb'
+  Dir.chdir(File.join(EXT_DIR, 'go_snowflake')) do
+    sh 'ruby extconf.rb'
     sh 'make'
   end
 end
