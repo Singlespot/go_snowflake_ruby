@@ -1,0 +1,30 @@
+# Dockerfile.test
+ARG RUBY_VERSION=3.2
+FROM ruby:${RUBY_VERSION}-slim
+
+# Install required dependencies
+RUN apt-get update && apt-get install -y \
+    golang \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Go environment variables
+ENV GOPATH=/go
+ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+
+WORKDIR /test-app
+
+# Create a minimal test application
+RUN gem install bundler
+
+# Create test Gemfile
+RUN echo "source 'https://rubygems.org'" > Gemfile
+RUN echo "gem 'go_snowflake_ruby', :git => 'https://github.com/Singlespot/go_snowflake_ruby.git', branch: 'main'" >> Gemfile
+
+# Volume for the gem
+VOLUME ["/gem"]
+
+# Default to running bundle install
+CMD ["bundle", "install"]
+

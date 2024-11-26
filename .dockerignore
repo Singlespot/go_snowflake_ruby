@@ -1,0 +1,11 @@
+.git/
+.gitignore
+.bundle/
+pkg/
+tmp/
+log/
+*.gem
+.dockerignore
+Dockerfile
+compose.yaml
+README.md
