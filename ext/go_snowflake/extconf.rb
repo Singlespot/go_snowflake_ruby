@@ -35,11 +35,11 @@ end
 # Create the Makefile to link the shared library
 create_makefile("#{go_output}")
 
-File.open('Makefile', 'a') do |f|
-  f.puts <<-EOF
+# File.open('Makefile', 'a') do |f|
+#   f.puts <<-EOF
 
-clean:
-\t@rm -f *.o *.so *.bundle *.mod *.sum
-\t@rm -f Makefile
-  EOF
-end
+# clean:
+# \t@rm -f *.o *.so *.bundle *.mod *.sum
+# \t@rm -f Makefile
+#   EOF
+# end
