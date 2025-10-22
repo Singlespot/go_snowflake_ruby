@@ -3,8 +3,7 @@ module GoSnowflake
     attr_reader :last_id, :rows_affected
 
     def initialize(query, *args)
-      @query = query
-      @args = args
+      super(query, *args)
       @signal_handler = SignalHandler.new
     end
 

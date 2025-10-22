@@ -3,8 +3,7 @@ module GoSnowflake
     attr_reader :columns, :column_types, :num_cols
 
     def initialize(query, *args)
-      @query = query
-      @args = args
+      super(query, *args)
     end
 
     def select(&block)
@@ -17,10 +16,10 @@ module GoSnowflake
 
     private
 
-    def fetch_results
+    def fetch_results(&block)
       initialize_buffers
       fetch_metadata
-      fetch_rows { |row| yield row }
+      fetch_rows(&block)
     ensure
       cleanup_resources
       GoSnowflake.CloseCursor
@@ -51,7 +50,9 @@ module GoSnowflake
       @columns = columns_ptr.read_array_of_pointer(@num_cols).map(&:read_string)
 
       column_types_ptr = @out_column_types.read_pointer
-      @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string).map { |type| type_json_parse(type) }
+      @column_types = column_types_ptr.read_array_of_pointer(@num_cols).map(&:read_string).map do |type|
+        type_json_parse(type)
+      end
     end
 
     def fetch_rows
@@ -83,10 +84,11 @@ module GoSnowflake
     end
 
     private
+
     def type_json_parse(type)
       JSON.parse(type)
-      rescue JSON::ParserError
-        type
+    rescue JSON::ParserError
+      type
     end
   end
 end

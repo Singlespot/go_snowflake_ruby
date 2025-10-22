@@ -3,6 +3,12 @@
 require_relative "test_helper"
 require_relative "../lib/go_snowflake_ruby"
 
+class TestConnectionStringEnv < Minitest::Test
+  def test_connection_string_env_set
+    refute_nil ENV["CONNECTION_STRING"], "CONNECTION_STRING environment variable must be set for tests."
+  end
+end
+
 class TestGoSnowflakeRubyGem < Minitest::Test
   def test_that_it_has_a_version_number
     refute_nil ::GoSnowflakeRuby::VERSION
@@ -78,7 +84,7 @@ class TestGoSnowflakeRubyDatabase < Minitest::Test
 
   def test_async_execute
     e = @connection.async_execute("SELECT COUNT(*) FROM TABLE(GENERATOR(TIMELIMIT => 1))")
-    assert_match /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/, e.query_id
+    assert_match(/\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z/, e.query_id)
   end
 
   private

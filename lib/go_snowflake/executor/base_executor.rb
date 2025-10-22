@@ -1,10 +1,16 @@
 module GoSnowflake
   # Base class for common functionality
   class BaseExecutor
+    def initialize(query, *args)
+      @query = query
+      @args = args
+    end
+
     protected
 
     def handle_error(error, context)
       return if error.nil?
+
       raise QueryError, "#{context}: #{error}"
     end
 

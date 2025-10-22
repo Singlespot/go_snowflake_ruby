@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql/driver"
 	"fmt"
-	"time"
 
 	sf "github.com/snowflakedb/gosnowflake"
 )
@@ -33,8 +32,7 @@ func convertArgsToNamedValues(args []interface{}) []driver.NamedValue {
 // ExecuteAsyncQuery executes a query asynchronously and returns the query ID
 func ExecuteAsyncQuery(query string, args []interface{}) ExecuteAsyncResult {
     // Create context with timeout
-    ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-    defer cancel()
+    ctx := context.Background()
 
     // Set async mode
     ctx = sf.WithAsyncMode(ctx)

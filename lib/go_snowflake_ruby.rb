@@ -1,6 +1,7 @@
 # frozen_string_literal: true
-require 'ffi'
-require 'json'
+
+require "ffi"
+require "json"
 require_relative "go_snowflake_ruby/version"
 require_relative "go_snowflake/go_snowflake"
 require_relative "go_snowflake/signal_handler"
@@ -14,6 +15,7 @@ require_relative "go_snowflake/argument_builder"
 module GoSnowflakeRuby
   # Custom error class for GoSnowflakeRuby specific errors
   class Error < StandardError; end
+  class ConnectionError < Error; end
 
   # Main database connection and interaction class
   class Database
@@ -29,7 +31,10 @@ module GoSnowflakeRuby
       def connect(connection_string)
         conn = new
         error = GoSnowflake.InitConnection(connection_string)
-        conn.set_error(error) if error
+        if error
+          conn.set_error(error)
+          raise ConnectionError, "Failed to connect: #{error}"
+        end
         conn
       end
     end

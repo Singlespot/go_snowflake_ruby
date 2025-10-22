@@ -3,8 +3,7 @@ module GoSnowflake
     attr_reader :query_id
 
     def initialize(query, *args)
-      @query = query
-      @args = args
+      super(query, *args)
     end
 
     def execute
