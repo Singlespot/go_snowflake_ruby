@@ -25,7 +25,8 @@ Gem::Specification.new do |spec|
   spec.files = Dir.chdir(__dir__) do
     Dir.glob("**/*").select { |f| File.file?(f) }.reject do |f|
       (File.expand_path(f) == __FILE__) ||
-        f.start_with?(*%w[bin/ test/ spec/ features/ sig/ .git Gemfile])
+        f.start_with?(*%w[bin/ test/ spec/ features/ sig/ .git Gemfile]) ||
+        f.end_with?(*%w[.gem])
     end
   end
   spec.bindir = "exe"
@@ -36,13 +37,13 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
-  spec.add_dependency 'rake', '~> 13.0'
-  spec.add_dependency 'ffi', '~> 1.15'
+  spec.add_dependency "ffi", "~> 1.15"
+  spec.add_dependency "rake", "~> 13.0"
 
-  spec.add_development_dependency 'yard'
-  spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rake-compiler'
-  spec.add_development_dependency 'rubocop'
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake-compiler"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "yard"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
