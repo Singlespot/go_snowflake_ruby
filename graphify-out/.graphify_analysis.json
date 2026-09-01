@@ -1,0 +1,340 @@
+{
+  "communities": {
+    "0": [
+      "ext_go_snowflake_arguments_binding",
+      "ext_go_snowflake_arguments_binding_allocatecolumnmemory",
+      "ext_go_snowflake_arguments_binding_columntypetojson",
+      "ext_go_snowflake_arguments_binding_convertargs",
+      "ext_go_snowflake_arguments_binding_converttochararray",
+      "ext_go_snowflake_arguments_binding_setcolumnnamesandtypes",
+      "ext_go_snowflake_database_fetch_getcolumntypes",
+      "ext_go_snowflake_go_snowflake",
+      "ext_go_snowflake_go_snowflake_asyncexecute",
+      "ext_go_snowflake_go_snowflake_cancelexecution",
+      "ext_go_snowflake_go_snowflake_closeconnection",
+      "ext_go_snowflake_go_snowflake_closecursor",
+      "ext_go_snowflake_go_snowflake_cstringfromerror",
+      "ext_go_snowflake_go_snowflake_execute",
+      "ext_go_snowflake_go_snowflake_fetch",
+      "ext_go_snowflake_go_snowflake_fetchnextrow",
+      "ext_go_snowflake_go_snowflake_initconnection",
+      "ext_go_snowflake_go_snowflake_main",
+      "ext_go_snowflake_go_snowflake_ping",
+      "go_snowflake_argtype",
+      "go_snowflake_columntypeinfo",
+      "go_type_c_char",
+      "go_type_c_int",
+      "go_type_c_uchar",
+      "go_type_database_sql_columntype"
+    ],
+    "1": [
+      "lib_go_snowflake_argument_builder",
+      "lib_go_snowflake_argument_builder_argumentbuilder",
+      "lib_go_snowflake_argument_builder_argumentbuilder_build",
+      "lib_go_snowflake_executor_async_executor_gosnowflake_asyncexecutor_execute_async_query",
+      "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor_handle_error",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor_execute_query",
+      "lib_go_snowflake_executor_fetcher",
+      "lib_go_snowflake_executor_fetcher_gosnowflake",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_cleanup_resources",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_fetch_metadata",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_fetch_results",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_fetch_rows",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_initialize",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_initialize_buffers",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_load_columns_and_types",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_select",
+      "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_type_json_parse",
+      "lib_go_snowflake_executor_fetcher_rb_baseexecutor",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_select"
+    ],
+    "2": [
+      "database_executeresult",
+      "ext_go_snowflake_database_connection",
+      "ext_go_snowflake_database_connection_close",
+      "ext_go_snowflake_database_connection_init",
+      "ext_go_snowflake_database_connection_loadprivatekeyfromfile",
+      "ext_go_snowflake_database_connection_opendbdefault",
+      "ext_go_snowflake_database_connection_opendbwithprivatekey",
+      "ext_go_snowflake_database_connection_ping",
+      "ext_go_snowflake_database_exec",
+      "ext_go_snowflake_database_exec_cancelexecution",
+      "ext_go_snowflake_database_exec_execute",
+      "ext_go_snowflake_database_global",
+      "ext_go_snowflake_database_global_getdb",
+      "ext_go_snowflake_database_global_setdb",
+      "go_type_crypto_rsa_privatekey",
+      "go_type_database_sql_db",
+      "go_type_net_url_url"
+    ],
+    "3": [
+      "lib_go_snowflake_executor_executor",
+      "lib_go_snowflake_executor_executor_gosnowflake",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor_cleanup_signal_handlers",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor_execute",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor_initialize",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor_perform_cancel",
+      "lib_go_snowflake_executor_executor_gosnowflake_executor_setup_signal_handlers",
+      "lib_go_snowflake_executor_executor_rb_baseexecutor",
+      "lib_go_snowflake_signal_handler",
+      "lib_go_snowflake_signal_handler_gosnowflake",
+      "lib_go_snowflake_signal_handler_gosnowflake_signalhandler",
+      "lib_go_snowflake_signal_handler_gosnowflake_signalhandler_disable",
+      "lib_go_snowflake_signal_handler_gosnowflake_signalhandler_enable",
+      "lib_go_snowflake_signal_handler_gosnowflake_signalhandler_initialize",
+      "lib_go_snowflake_signal_handler_gosnowflake_signalhandler_on_signal",
+      "lib_go_snowflake_signal_handler_gosnowflake_signalhandler_remove_handler"
+    ],
+    "4": [
+      "test",
+      "test_test_go_snowflake_ruby",
+      "test_test_go_snowflake_ruby_testconnectionstringenv",
+      "test_test_go_snowflake_ruby_testconnectionstringenv_test_connection_string_env_set",
+      "test_test_go_snowflake_ruby_testgosnowflakerubyconnection",
+      "test_test_go_snowflake_ruby_testgosnowflakerubyconnection_test_select",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_setup_test_table",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_teardown",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_async_execute",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_connection_state",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_execute",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_invalid_query",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_select",
+      "test_test_go_snowflake_ruby_testgosnowflakerubygem",
+      "test_test_go_snowflake_ruby_testgosnowflakerubygem_test_that_it_has_a_version_number"
+    ],
+    "5": [
+      "lib_go_snowflake_ruby",
+      "lib_go_snowflake_ruby_connect",
+      "lib_go_snowflake_ruby_gosnowflakeruby",
+      "lib_go_snowflake_ruby_gosnowflakeruby_connectionerror",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_async_execute",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_connected",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_disconnect",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_execute",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_set_error",
+      "lib_go_snowflake_ruby_gosnowflakeruby_error",
+      "lib_go_snowflake_ruby_rb_error",
+      "lib_go_snowflake_ruby_rb_standarderror",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_setup",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_invalid_connection"
+    ],
+    "6": [
+      "database_cursor",
+      "ext_go_snowflake_database_fetch",
+      "ext_go_snowflake_database_fetch_cancelquery",
+      "ext_go_snowflake_database_fetch_closecursor",
+      "ext_go_snowflake_database_fetch_fetch",
+      "ext_go_snowflake_database_fetch_fetchnextrow",
+      "ext_go_snowflake_database_fetch_formatvalue",
+      "ext_go_snowflake_database_fetch_getcolumns",
+      "ext_go_snowflake_database_fetch_iscursoropen",
+      "ext_go_snowflake_database_fetch_newcursor",
+      "go_type_database_sql_rows",
+      "go_type_sync_mutex"
+    ],
+    "7": [
+      "changelog",
+      "code_of_conduct",
+      "contributor_covenant",
+      "go_snowflake_ruby",
+      "go_snowflake_ruby_driver",
+      "license",
+      "mozilla_diversity",
+      "readme"
+    ],
+    "8": [
+      "lib_go_snowflake_executor_base_executor",
+      "lib_go_snowflake_executor_base_executor_gosnowflake",
+      "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor",
+      "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor_cleanup_resources",
+      "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor_connected",
+      "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor_ensure_connected",
+      "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor_initialize"
+    ],
+    "9": [
+      "lib_go_snowflake_go_snowflake",
+      "lib_go_snowflake_go_snowflake_gosnowflake",
+      "lib_go_snowflake_go_snowflake_gosnowflake_connectionerror",
+      "lib_go_snowflake_go_snowflake_gosnowflake_error",
+      "lib_go_snowflake_go_snowflake_gosnowflake_queryerror",
+      "lib_go_snowflake_go_snowflake_rb_error",
+      "lib_go_snowflake_go_snowflake_rb_standarderror"
+    ],
+    "10": [
+      "lib_go_snowflake_executor_async_executor",
+      "lib_go_snowflake_executor_async_executor_gosnowflake",
+      "lib_go_snowflake_executor_async_executor_gosnowflake_asyncexecutor",
+      "lib_go_snowflake_executor_async_executor_gosnowflake_asyncexecutor_execute",
+      "lib_go_snowflake_executor_async_executor_gosnowflake_asyncexecutor_initialize",
+      "lib_go_snowflake_executor_async_executor_rb_baseexecutor"
+    ],
+    "11": [
+      "database_executeasyncresult",
+      "ext_go_snowflake_database_async",
+      "ext_go_snowflake_database_async_convertargstonamedvalues",
+      "ext_go_snowflake_database_async_executeasyncquery",
+      "go_type_database_sql_driver_namedvalue"
+    ],
+    "12": [
+      "bin_setup",
+      "bin_setup__entry"
+    ],
+    "13": [
+      "lib_go_snowflake_ruby_version",
+      "lib_go_snowflake_ruby_version_gosnowflakeruby"
+    ],
+    "14": [
+      "bin_console"
+    ],
+    "15": [
+      "docker_compose"
+    ],
+    "16": [
+      "ext_go_snowflake_extconf"
+    ],
+    "17": [
+      "rubocop"
+    ],
+    "18": [
+      "test_test_helper"
+    ]
+  },
+  "cohesion": {
+    "0": 0.16666666666666666,
+    "1": 0.13157894736842105,
+    "2": 0.20588235294117646,
+    "3": 0.11764705882352941,
+    "4": 0.15,
+    "5": 0.1619047619047619,
+    "6": 0.24242424242424243,
+    "7": 0.2857142857142857,
+    "8": 0.3333333333333333,
+    "9": 0.3333333333333333,
+    "10": 0.3333333333333333,
+    "11": 0.6,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher",
+      "label": "GoSnowflake::Fetcher",
+      "degree": 12
+    },
+    {
+      "id": "test_test_go_snowflake_ruby_testgosnowflakerubydatabase",
+      "label": "TestGoSnowflakeRubyDatabase",
+      "degree": 11
+    },
+    {
+      "id": "lib_go_snowflake_ruby_gosnowflakeruby_database",
+      "label": "GoSnowflakeRuby::Database",
+      "degree": 10
+    },
+    {
+      "id": "lib_go_snowflake_executor_executor_gosnowflake_executor",
+      "label": "GoSnowflake::Executor",
+      "degree": 9
+    },
+    {
+      "id": "lib_go_snowflake_signal_handler_gosnowflake_signalhandler",
+      "label": "GoSnowflake::SignalHandler",
+      "degree": 7
+    },
+    {
+      "id": "ext_go_snowflake_arguments_binding_convertargs",
+      "label": "ConvertArgs()",
+      "degree": 7
+    },
+    {
+      "id": "ext_go_snowflake_go_snowflake_fetch",
+      "label": "Fetch()",
+      "degree": 7
+    },
+    {
+      "id": "ext_go_snowflake_database_connection_opendbwithprivatekey",
+      "label": "openDbWithPrivateKey()",
+      "degree": 7
+    },
+    {
+      "id": "lib_go_snowflake_executor_async_executor_gosnowflake_asyncexecutor",
+      "label": "GoSnowflake::AsyncExecutor",
+      "degree": 6
+    },
+    {
+      "id": "lib_go_snowflake_executor_base_executor_gosnowflake_baseexecutor",
+      "label": "GoSnowflake::BaseExecutor",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "README",
+      "target": "Changelog",
+      "source_files": [
+        "README.md",
+        "CHANGELOG.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Changelog` unexpectedly reaches hub `README`"
+    },
+    {
+      "source": "README",
+      "target": "MIT License",
+      "source_files": [
+        "README.md",
+        "LICENSE.txt"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; peripheral node `MIT License` unexpectedly reaches hub `README`"
+    },
+    {
+      "source": "ExecuteAsyncQuery()",
+      "target": "GetDb()",
+      "source_files": [
+        "ext/go_snowflake/database/async.go",
+        "ext/go_snowflake/database/global.go"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "Fetch()",
+      "target": "GetDb()",
+      "source_files": [
+        "ext/go_snowflake/database/fetch.go",
+        "ext/go_snowflake/database/global.go"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "README",
+      "target": "Code of Conduct",
+      "source_files": [
+        "README.md",
+        "CODE_OF_CONDUCT.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
