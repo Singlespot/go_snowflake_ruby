@@ -1,127 +1,127 @@
 {
   "bin/console": {
-    "mtime": 1787738052.7267666,
-    "seen": 1787742738.4389057,
+    "mtime": 1789042978.9221995,
+    "seen": 1789042981.4395788,
     "ast_hash": "879304e06d7c31d3b1bc1836038affb0",
     "semantic_hash": "879304e06d7c31d3b1bc1836038affb0"
   },
   "bin/setup": {
-    "mtime": 1787738052.7276711,
-    "seen": 1787742738.4389114,
+    "mtime": 1789042978.9231932,
+    "seen": 1789042981.4395828,
     "ast_hash": "90a7a3ce00d13bdd3ddc88f5b4bb4d1a",
     "semantic_hash": "90a7a3ce00d13bdd3ddc88f5b4bb4d1a"
   },
   "ext/go_snowflake/arguments_binding.go": {
-    "mtime": 1787738052.7281454,
-    "seen": 1787742738.4389138,
+    "mtime": 1789042978.9233165,
+    "seen": 1789042981.4395845,
     "ast_hash": "dcb62a1d584248fde239e5c5f799c596",
     "semantic_hash": "dcb62a1d584248fde239e5c5f799c596"
   },
   "ext/go_snowflake/database/async.go": {
-    "mtime": 1787738052.728347,
-    "seen": 1787742738.4389153,
+    "mtime": 1789042978.9234016,
+    "seen": 1789042981.4395852,
     "ast_hash": "686c495ede709abc2eb8fb54945e4c14",
     "semantic_hash": "686c495ede709abc2eb8fb54945e4c14"
   },
   "ext/go_snowflake/database/connection.go": {
-    "mtime": 1787738052.7283936,
-    "seen": 1787742738.4389164,
+    "mtime": 1789042978.9234736,
+    "seen": 1789042981.4395862,
     "ast_hash": "ebd56c824bd437bf25d2ed3e3b8c2cd2",
     "semantic_hash": "ebd56c824bd437bf25d2ed3e3b8c2cd2"
   },
   "ext/go_snowflake/database/exec.go": {
-    "mtime": 1787738052.7283936,
-    "seen": 1787742738.4389174,
+    "mtime": 1789042978.9234736,
+    "seen": 1789042981.4395869,
     "ast_hash": "8ab0eafa29df14699e0f25ef076e7cc1",
     "semantic_hash": "8ab0eafa29df14699e0f25ef076e7cc1"
   },
   "ext/go_snowflake/database/fetch.go": {
-    "mtime": 1787738052.7283936,
-    "seen": 1787742738.4389186,
+    "mtime": 1789042978.9234736,
+    "seen": 1789042981.4395878,
     "ast_hash": "2e8f71c5a26abc44a0dbec485a97087f",
     "semantic_hash": "2e8f71c5a26abc44a0dbec485a97087f"
   },
   "ext/go_snowflake/database/global.go": {
-    "mtime": 1787738052.7283936,
-    "seen": 1787742738.4389198,
+    "mtime": 1789042978.9234736,
+    "seen": 1789042981.4395885,
     "ast_hash": "a1f539f893c28aa45045e3693b8e107c",
     "semantic_hash": "a1f539f893c28aa45045e3693b8e107c"
   },
   "ext/go_snowflake/extconf.rb": {
-    "mtime": 1787738052.7283936,
-    "seen": 1787742738.4389205,
+    "mtime": 1789042978.9234736,
+    "seen": 1789042981.4395893,
     "ast_hash": "490d6c10895bd4815bb000c1ddd69339",
     "semantic_hash": "490d6c10895bd4815bb000c1ddd69339"
   },
   "ext/go_snowflake/go_snowflake.go": {
-    "mtime": 1787738052.7283936,
-    "seen": 1787742738.4389212,
+    "mtime": 1789042978.9234736,
+    "seen": 1789042981.4395902,
     "ast_hash": "5a42e3ed1df5dd584aec028caddfc306",
     "semantic_hash": "5a42e3ed1df5dd584aec028caddfc306"
   },
   "lib/go_snowflake/argument_builder.rb": {
-    "mtime": 1787738052.728909,
-    "seen": 1787742738.4389222,
+    "mtime": 1789042978.9244182,
+    "seen": 1789042981.439591,
     "ast_hash": "c68d30e63032b368a6c75a23faad319e",
     "semantic_hash": "c68d30e63032b368a6c75a23faad319e"
   },
   "lib/go_snowflake/executor/async_executor.rb": {
-    "mtime": 1787738052.729115,
-    "seen": 1787742738.4389236,
+    "mtime": 1789042978.9244933,
+    "seen": 1789042981.439592,
     "ast_hash": "35988688b42b630a3f03457f957a7225",
     "semantic_hash": "35988688b42b630a3f03457f957a7225"
   },
   "lib/go_snowflake/executor/base_executor.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.4389243,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.4395926,
     "ast_hash": "ca17006faafe766a67cd58f571beda9c",
     "semantic_hash": "ca17006faafe766a67cd58f571beda9c"
   },
   "lib/go_snowflake/executor/executor.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.4389253,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.4395938,
     "ast_hash": "07716c5e61b1571a1d39035e78feadb4",
     "semantic_hash": "07716c5e61b1571a1d39035e78feadb4"
   },
   "lib/go_snowflake/executor/fetcher.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.438926,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.4395945,
     "ast_hash": "bd6bc72b7c2325a2013cf0c388601844",
     "semantic_hash": "bd6bc72b7c2325a2013cf0c388601844"
   },
   "lib/go_snowflake/go_snowflake.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.4389272,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.4395952,
     "ast_hash": "3c419674d102e2c2f6a5656c06b763cf",
     "semantic_hash": "3c419674d102e2c2f6a5656c06b763cf"
   },
   "lib/go_snowflake/signal_handler.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.4389281,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.4395962,
     "ast_hash": "7e5189dd32a39cadca442a63fa5a2b64",
     "semantic_hash": "7e5189dd32a39cadca442a63fa5a2b64"
   },
   "lib/go_snowflake_ruby.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.4389288,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.4395971,
     "ast_hash": "5cce312ffa3b7aab17457f7a1f02515b",
     "semantic_hash": "5cce312ffa3b7aab17457f7a1f02515b"
   },
   "lib/go_snowflake_ruby/version.rb": {
-    "mtime": 1787738052.7291703,
-    "seen": 1787742738.4389296,
+    "mtime": 1789042978.9245613,
+    "seen": 1789042981.439598,
     "ast_hash": "9767da2345287b120c6a2988684cabc1",
     "semantic_hash": "9767da2345287b120c6a2988684cabc1"
   },
   "test/test_go_snowflake_ruby.rb": {
-    "mtime": 1787738052.7297413,
-    "seen": 1787742738.4389305,
+    "mtime": 1789042978.9250042,
+    "seen": 1789042981.4395993,
     "ast_hash": "9629a5d7affb1a801aa3137aeabe74b2",
     "semantic_hash": "9629a5d7affb1a801aa3137aeabe74b2"
   },
   "test/test_helper.rb": {
-    "mtime": 1787738052.729943,
-    "seen": 1787742738.4389312,
+    "mtime": 1789042978.9251273,
+    "seen": 1789042981.4396002,
     "ast_hash": "d0947ec47b8f12f6883f56fd42ea37a8",
     "semantic_hash": "d0947ec47b8f12f6883f56fd42ea37a8"
   },
