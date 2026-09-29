@@ -1,4 +1,4 @@
-# Graph Report - go_snowflake_ruby  (2026-09-10)
+# Graph Report - go_snowflake_ruby  (2026-09-29)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -6,10 +6,10 @@
 ## Summary
 - 164 nodes · 217 edges · 19 communities (11 shown, 5 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.82)
-- Token cost: 92,356 input · 1,557 output
+- Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `02378202`
+- Built from commit: `9333a3ba`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
