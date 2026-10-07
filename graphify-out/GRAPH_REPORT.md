@@ -1,15 +1,15 @@
-# Graph Report - /home/sebastien/src/go_snowflake_ruby  (2026-10-07)
+# Graph Report - go_snowflake_ruby  (2026-10-07)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 164 nodes · 217 edges · 19 communities (14 shown, 5 thin omitted)
+- 164 nodes · 217 edges · 19 communities (10 shown, 9 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d522ca47`
+- Built from commit: `e87d9845`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -26,7 +26,6 @@
 - Ruby Error Definitions
 - Ruby Async Executor
 - Go Async Execution
-- Setup Script
 - Version Definition
 - Docker Compose Config
 - RuboCop Config
@@ -44,49 +43,49 @@
 10. `GoSnowflake::BaseExecutor` - 6 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `README` --conceptually_related_to--> `Changelog`  [INFERRED]
-  README.md → CHANGELOG.md
-- `README` --references--> `MIT License`  [EXTRACTED]
-  README.md → LICENSE.txt
 - `ExecuteAsyncQuery()` --calls--> `GetDb()`  [INFERRED]
   ext/go_snowflake/database/async.go → ext/go_snowflake/database/global.go
 - `Fetch()` --calls--> `GetDb()`  [INFERRED]
   ext/go_snowflake/database/fetch.go → ext/go_snowflake/database/global.go
-- `README` --references--> `Code of Conduct`  [EXTRACTED]
-  README.md → CODE_OF_CONDUCT.md
+- `README` --conceptually_related_to--> `Changelog`  [INFERRED]
+  README.md → CHANGELOG.md
+- `Fetch()` --calls--> `AllocateColumnMemory()`  [INFERRED]
+  ext/go_snowflake/go_snowflake.go → ext/go_snowflake/arguments_binding.go
+- `AsyncExecute()` --calls--> `ConvertArgs()`  [INFERRED]
+  ext/go_snowflake/go_snowflake.go → ext/go_snowflake/arguments_binding.go
 
 ## Import Cycles
 - None detected.
 
-## Communities (19 total, 5 thin omitted)
+## Communities (19 total, 9 thin omitted)
 
 ### Community 0 - "Go C Bridge Layer"
 Cohesion: 0.17
-Nodes (20): AllocateColumnMemory(), columnTypeToJSON(), ConvertArgs(), convertToCharArray(), SetColumnNamesAndTypes(), GetColumnTypes(), AsyncExecute(), CloseConnection() (+12 more)
+Nodes (16): AllocateColumnMemory(), columnTypeToJSON(), ConvertArgs(), convertToCharArray(), SetColumnNamesAndTypes(), GetColumnTypes(), AsyncExecute(), CloseConnection() (+8 more)
 
 ### Community 1 - "Ruby Query Fetcher"
-Cohesion: 0.13
-Nodes (4): ArgumentBuilder, GoSnowflake, GoSnowflake::Fetcher, BaseExecutor
+Cohesion: 0.14
+Nodes (3): ArgumentBuilder, GoSnowflake, GoSnowflake::Fetcher
 
 ### Community 2 - "Go Connection Management"
 Cohesion: 0.21
-Nodes (13): ExecuteResult, Close(), Init(), loadPrivateKeyFromFile(), openDbDefault(), openDbWithPrivateKey(), Ping(), Execute() (+5 more)
+Nodes (10): ExecuteResult, Close(), Init(), loadPrivateKeyFromFile(), openDbDefault(), openDbWithPrivateKey(), Ping(), Execute() (+2 more)
 
 ### Community 3 - "Ruby Executor & Signals"
 Cohesion: 0.12
-Nodes (5): GoSnowflake, GoSnowflake::Executor, BaseExecutor, GoSnowflake, GoSnowflake::SignalHandler
+Nodes (4): GoSnowflake, GoSnowflake::Executor, GoSnowflake, GoSnowflake::SignalHandler
 
 ### Community 4 - "Ruby Integration Tests"
 Cohesion: 0.15
-Nodes (5): Test, TestConnectionStringEnv, TestGoSnowflakeRubyConnection, TestGoSnowflakeRubyDatabase, TestGoSnowflakeRubyGem
+Nodes (5): connect(), GoSnowflakeRuby, GoSnowflakeRuby::ConnectionError, GoSnowflakeRuby::Database, GoSnowflakeRuby::Error
 
 ### Community 5 - "Ruby Database API"
-Cohesion: 0.16
-Nodes (7): connect(), GoSnowflakeRuby, GoSnowflakeRuby::ConnectionError, GoSnowflakeRuby::Database, GoSnowflakeRuby::Error, Error, StandardError
+Cohesion: 0.15
+Nodes (4): TestConnectionStringEnv, TestGoSnowflakeRubyConnection, TestGoSnowflakeRubyDatabase, TestGoSnowflakeRubyGem
 
 ### Community 6 - "Go Cursor & Fetching"
 Cohesion: 0.24
-Nodes (8): Cursor, CloseCursor(), Fetch(), FetchNextRow(), formatValue(), newCursor(), database/sql.Rows, sync.Mutex
+Nodes (6): Cursor, CloseCursor(), Fetch(), FetchNextRow(), formatValue(), newCursor()
 
 ### Community 7 - "Project Documentation"
 Cohesion: 0.29
@@ -94,33 +93,29 @@ Nodes (8): Changelog, Code of Conduct, Contributor Covenant, GoSnowflakeRuby Mod
 
 ### Community 9 - "Ruby Error Definitions"
 Cohesion: 0.33
-Nodes (6): GoSnowflake, GoSnowflake::ConnectionError, GoSnowflake::Error, GoSnowflake::QueryError, Error, StandardError
-
-### Community 10 - "Ruby Async Executor"
-Cohesion: 0.33
-Nodes (3): GoSnowflake, GoSnowflake::AsyncExecutor, BaseExecutor
+Nodes (4): GoSnowflake, GoSnowflake::ConnectionError, GoSnowflake::Error, GoSnowflake::QueryError
 
 ### Community 11 - "Go Async Execution"
 Cohesion: 0.60
-Nodes (4): ExecuteAsyncResult, convertArgsToNamedValues(), ExecuteAsyncQuery(), database/sql/driver.NamedValue
+Nodes (3): ExecuteAsyncResult, convertArgsToNamedValues(), ExecuteAsyncQuery()
 
 ## Knowledge Gaps
 - **8 isolated node(s):** `GoSnowflakeRuby`, `ColumnTypeInfo`, `MIT License`, `Docker Compose Configuration`, `RuboCop Configuration` (+3 more)
-  These have ≤1 connection - possible missing edges or undocumented components.
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 64 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `GoSnowflakeRuby::Database` connect `Ruby Database API` to `Ruby Query Fetcher`, `Ruby Integration Tests`?**
+- **Why does `GoSnowflakeRuby::Database` connect `Ruby Integration Tests` to `Ruby Database API`?**
   _High betweenness centrality (0.133) - this node is a cross-community bridge._
-- **Why does `GoSnowflake::Executor` connect `Ruby Executor & Signals` to `Ruby Query Fetcher`, `Ruby Database API`?**
-  _High betweenness centrality (0.094) - this node is a cross-community bridge._
-- **Why does `GetDb()` connect `Go Connection Management` to `Go Async Execution`, `Go Cursor & Fetching`?**
-  _High betweenness centrality (0.069) - this node is a cross-community bridge._
 - **What connects `GoSnowflakeRuby`, `ColumnTypeInfo`, `MIT License` to the rest of the system?**
   _8 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Ruby Query Fetcher` be split into smaller, more focused modules?**
-  _Cohesion score 0.13157894736842105 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
+- **Why does `GoSnowflake::Executor` connect `Ruby Executor & Signals` to `Ruby Query Fetcher`, `Ruby Integration Tests`?**
+  _High betweenness centrality (0.094) - this node is a cross-community bridge._
 - **Should `Ruby Executor & Signals` be split into smaller, more focused modules?**
   _Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected._
+- **Why does `GetDb()` connect `Go Connection Management` to `Go Async Execution`, `Go Cursor & Fetching`?**
+  _High betweenness centrality (0.069) - this node is a cross-community bridge._

@@ -46,8 +46,7 @@
       "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_load_columns_and_types",
       "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_select",
       "lib_go_snowflake_executor_fetcher_gosnowflake_fetcher_type_json_parse",
-      "lib_go_snowflake_executor_fetcher_rb_baseexecutor",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database_select"
+      "lib_go_snowflake_executor_fetcher_rb_baseexecutor"
     ],
     "2": [
       "database_executeresult",
@@ -88,6 +87,24 @@
       "lib_go_snowflake_signal_handler_gosnowflake_signalhandler_remove_handler"
     ],
     "4": [
+      "lib_go_snowflake_ruby",
+      "lib_go_snowflake_ruby_connect",
+      "lib_go_snowflake_ruby_gosnowflakeruby",
+      "lib_go_snowflake_ruby_gosnowflakeruby_connectionerror",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_async_execute",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_connected",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_disconnect",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_execute",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_select",
+      "lib_go_snowflake_ruby_gosnowflakeruby_database_set_error",
+      "lib_go_snowflake_ruby_gosnowflakeruby_error",
+      "lib_go_snowflake_ruby_rb_error",
+      "lib_go_snowflake_ruby_rb_standarderror",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_setup",
+      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_invalid_connection"
+    ],
+    "5": [
       "test",
       "test_test_go_snowflake_ruby",
       "test_test_go_snowflake_ruby_testconnectionstringenv",
@@ -104,23 +121,6 @@
       "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_select",
       "test_test_go_snowflake_ruby_testgosnowflakerubygem",
       "test_test_go_snowflake_ruby_testgosnowflakerubygem_test_that_it_has_a_version_number"
-    ],
-    "5": [
-      "lib_go_snowflake_ruby",
-      "lib_go_snowflake_ruby_connect",
-      "lib_go_snowflake_ruby_gosnowflakeruby",
-      "lib_go_snowflake_ruby_gosnowflakeruby_connectionerror",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database_async_execute",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database_connected",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database_disconnect",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database_execute",
-      "lib_go_snowflake_ruby_gosnowflakeruby_database_set_error",
-      "lib_go_snowflake_ruby_gosnowflakeruby_error",
-      "lib_go_snowflake_ruby_rb_error",
-      "lib_go_snowflake_ruby_rb_standarderror",
-      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_setup",
-      "test_test_go_snowflake_ruby_testgosnowflakerubydatabase_test_invalid_connection"
     ],
     "6": [
       "database_cursor",
@@ -205,11 +205,11 @@
   },
   "cohesion": {
     "0": 0.16666666666666666,
-    "1": 0.13157894736842105,
+    "1": 0.14035087719298245,
     "2": 0.20588235294117646,
     "3": 0.11764705882352941,
     "4": 0.15,
-    "5": 0.1619047619047619,
+    "5": 0.15,
     "6": 0.24242424242424243,
     "7": 0.2857142857142857,
     "8": 0.3333333333333333,
@@ -278,28 +278,6 @@
   ],
   "surprises": [
     {
-      "source": "README",
-      "target": "Changelog",
-      "source_files": [
-        "README.md",
-        "CHANGELOG.md"
-      ],
-      "confidence": "INFERRED",
-      "relation": "conceptually_related_to",
-      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Changelog` unexpectedly reaches hub `README`"
-    },
-    {
-      "source": "README",
-      "target": "MIT License",
-      "source_files": [
-        "README.md",
-        "LICENSE.txt"
-      ],
-      "confidence": "EXTRACTED",
-      "relation": "references",
-      "why": "connects across different repos/directories; peripheral node `MIT License` unexpectedly reaches hub `README`"
-    },
-    {
       "source": "ExecuteAsyncQuery()",
       "target": "GetDb()",
       "source_files": [
@@ -323,31 +301,43 @@
     },
     {
       "source": "README",
-      "target": "Code of Conduct",
+      "target": "Changelog",
       "source_files": [
         "README.md",
-        "CODE_OF_CONDUCT.md"
+        "CHANGELOG.md"
       ],
-      "confidence": "EXTRACTED",
-      "relation": "references",
-      "why": "connects across different repos/directories"
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; peripheral node `Changelog` unexpectedly reaches hub `README`"
+    },
+    {
+      "source": "Fetch()",
+      "target": "AllocateColumnMemory()",
+      "source_files": [
+        "ext/go_snowflake/go_snowflake.go",
+        "ext/go_snowflake/arguments_binding.go"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source"
+    },
+    {
+      "source": "AsyncExecute()",
+      "target": "ConvertArgs()",
+      "source_files": [
+        "ext/go_snowflake/go_snowflake.go",
+        "ext/go_snowflake/arguments_binding.go"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source"
     }
   ],
   "questions": [
     {
       "type": "bridge_node",
-      "question": "Why does `GoSnowflakeRuby::Database` connect `Ruby Database API` to `Ruby Query Fetcher`, `Ruby Integration Tests`?",
+      "question": "Why does `GoSnowflakeRuby::Database` connect `Ruby Integration Tests` to `Ruby Database API`?",
       "why": "High betweenness centrality (0.133) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `GoSnowflake::Executor` connect `Ruby Executor & Signals` to `Ruby Query Fetcher`, `Ruby Database API`?",
-      "why": "High betweenness centrality (0.094) - this node is a cross-community bridge."
-    },
-    {
-      "type": "bridge_node",
-      "question": "Why does `GetDb()` connect `Go Connection Management` to `Go Async Execution`, `Go Cursor & Fetching`?",
-      "why": "High betweenness centrality (0.069) - this node is a cross-community bridge."
     },
     {
       "type": "isolated_nodes",
@@ -357,12 +347,22 @@
     {
       "type": "low_cohesion",
       "question": "Should `Ruby Query Fetcher` be split into smaller, more focused modules?",
-      "why": "Cohesion score 0.13157894736842105 - nodes in this community are weakly interconnected."
+      "why": "Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `GoSnowflake::Executor` connect `Ruby Executor & Signals` to `Ruby Query Fetcher`, `Ruby Integration Tests`?",
+      "why": "High betweenness centrality (0.094) - this node is a cross-community bridge."
     },
     {
       "type": "low_cohesion",
       "question": "Should `Ruby Executor & Signals` be split into smaller, more focused modules?",
       "why": "Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `GetDb()` connect `Go Connection Management` to `Go Async Execution`, `Go Cursor & Fetching`?",
+      "why": "High betweenness centrality (0.069) - this node is a cross-community bridge."
     }
   ]
 }
