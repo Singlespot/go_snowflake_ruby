@@ -1,15 +1,15 @@
-# Graph Report - go_snowflake_ruby  (2026-10-01)
+# Graph Report - /home/sebastien/src/go_snowflake_ruby  (2026-10-07)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
 
 ## Summary
-- 164 nodes · 217 edges · 19 communities (11 shown, 5 thin omitted)
+- 164 nodes · 217 edges · 19 communities (14 shown, 5 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 16 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9333a3ba`
+- Built from commit: `d522ca47`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -106,7 +106,7 @@ Nodes (4): ExecuteAsyncResult, convertArgsToNamedValues(), ExecuteAsyncQuery(), 
 
 ## Knowledge Gaps
 - **8 isolated node(s):** `GoSnowflakeRuby`, `ColumnTypeInfo`, `MIT License`, `Docker Compose Configuration`, `RuboCop Configuration` (+3 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 64 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
