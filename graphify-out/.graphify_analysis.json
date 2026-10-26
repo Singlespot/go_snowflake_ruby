@@ -341,8 +341,8 @@
     },
     {
       "type": "isolated_nodes",
-      "question": "What connects `GoSnowflakeRuby`, `ColumnTypeInfo`, `MIT License` to the rest of the system?",
-      "why": "8 weakly-connected nodes found - possible documentation gaps or missing edges."
+      "question": "What connects `MIT License`, `Docker Compose Configuration`, `RuboCop Configuration` to the rest of the system?",
+      "why": "6 weakly-connected nodes found - possible documentation gaps or missing edges."
     },
     {
       "type": "low_cohesion",

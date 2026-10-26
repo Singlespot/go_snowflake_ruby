@@ -1,4 +1,4 @@
-# Graph Report - go_snowflake_ruby  (2026-10-07)
+# Graph Report - go_snowflake_ruby  (2026-10-26)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -9,7 +9,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e87d9845`
+- Built from commit: `e4e64bd8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -100,7 +100,7 @@ Cohesion: 0.60
 Nodes (3): ExecuteAsyncResult, convertArgsToNamedValues(), ExecuteAsyncQuery()
 
 ## Knowledge Gaps
-- **8 isolated node(s):** `GoSnowflakeRuby`, `ColumnTypeInfo`, `MIT License`, `Docker Compose Configuration`, `RuboCop Configuration` (+3 more)
+- **6 isolated node(s):** `MIT License`, `Docker Compose Configuration`, `RuboCop Configuration`, `Changelog`, `Contributor Covenant` (+1 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 64 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -109,8 +109,8 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `GoSnowflakeRuby::Database` connect `Ruby Integration Tests` to `Ruby Database API`?**
   _High betweenness centrality (0.133) - this node is a cross-community bridge._
-- **What connects `GoSnowflakeRuby`, `ColumnTypeInfo`, `MIT License` to the rest of the system?**
-  _8 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `MIT License`, `Docker Compose Configuration`, `RuboCop Configuration` to the rest of the system?**
+  _6 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Ruby Query Fetcher` be split into smaller, more focused modules?**
   _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
 - **Why does `GoSnowflake::Executor` connect `Ruby Executor & Signals` to `Ruby Query Fetcher`, `Ruby Integration Tests`?**
