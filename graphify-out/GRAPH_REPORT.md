@@ -1,4 +1,4 @@
-# Graph Report - go_snowflake_ruby  (2026-10-26)
+# Graph Report - go_snowflake_ruby  (2026-11-18)
 
 ## Corpus Check
 - cluster-only mode — file stats not available
@@ -9,7 +9,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e4e64bd8`
+- Built from commit: `8093af76`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
