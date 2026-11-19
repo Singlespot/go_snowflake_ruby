@@ -9,3 +9,7 @@ log/
 Dockerfile
 compose.yaml
 README.md
+
+# Claude Code: project settings, hooks and session worktrees, never part of an image
+.claude
+CLAUDE.md
